@@ -1,0 +1,10 @@
+<resources>
+	<string name="app_name">MapsApp</string>
+	<string name="title_activity_maps">MapsActivity</string>
+
+	<string name="pin_dialog_title">Укажите название метки</string>
+	<string name="pin_name_hint">Название метки</string>
+	<string name="pin_positive_button">Ок</string>
+	<string name="pin_negative_button">Отмена</string>
+
+</resources>
