@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.example.mapsapp.R
 import com.example.mapsapp.presentation.MapScreenState
 import com.example.mapsapp.presentation.MapViewModel
 import com.example.mapsapp.ui.MyDialogFragment
@@ -25,25 +26,25 @@ private const val DIALOG_TAG = "DIALOG_TAG"
 
 internal fun Fragment.showExplainDialog(negativeButtonListener: () -> Unit) {
 	AlertDialog.Builder(context)
-		.setTitle("Разрешите доступ к геолокации")
-		.setMessage("Иначе приложение не сможет определить, где Вы находитесь")
-		.setPositiveButton("Перейти в настройки") { _, _ ->
+		.setTitle(R.string.geo_location_request)
+		.setMessage(R.string.geo_location_request_message)
+		.setPositiveButton(R.string.open_settings) { _, _ ->
 			val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
 			val uri = Uri.fromParts("package", requireContext().packageName, null)
 			intent.setData(uri)
 			startActivity(intent)
 		}
-		.setNegativeButton("Отмена") { _, _ -> negativeButtonListener() }
+		.setNegativeButton(R.string.pin_negative_button) { _, _ -> negativeButtonListener() }
 		.setCancelable(false)
 		.show()
 }
 
 internal fun Fragment.showNoGeolocationDialog(listener: () -> Unit) {
 	AlertDialog.Builder(context)
-		.setTitle("Нет доступа к геолокации")
-		.setMessage("Приложение не сможет открыть карту по Вашему местоположению. Доступ к геолокации можно выдать в настройках.")
-		.setPositiveButton("Ок") { _, _ -> listener() }
-		.setNegativeButton("Перейти в настройки") { _, _ ->
+		.setTitle(R.string.geo_location_no_permission)
+		.setMessage(R.string.geo_location_cant_open_map)
+		.setPositiveButton(R.string.pin_positive_button) { _, _ -> listener() }
+		.setNegativeButton(R.string.open_settings) { _, _ ->
 			val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
 			val uri = Uri.fromParts("package", requireContext().packageName, null)
 			intent.setData(uri)
@@ -79,7 +80,7 @@ internal fun Fragment.setupPinActionDialog(
 		}
 
 		override fun onDrivingRoutesError(p0: Error) {
-			Toast.makeText(requireContext(), "Что-то пошло не так при построении маршрута", Toast.LENGTH_SHORT).show()
+			Toast.makeText(requireContext(), R.string.geo_location_something_went_wrong, Toast.LENGTH_SHORT).show()
 		}
 	}
 
@@ -97,11 +98,11 @@ private fun Fragment.showPinActionDialog(
 ) {
 	val alertDialogCreator = {
 		AlertDialog.Builder(context)
-			.setMessage("Выберите действие, которое хотите совершить")
-			.setPositiveButton("Построить маршрут") { _, _ ->
+			.setMessage(R.string.choose_action)
+			.setPositiveButton(R.string.build_a_route) { _, _ ->
 				setupDrivingSession()
 			}
-			.setNegativeButton("Удалить") { _, _ ->
+			.setNegativeButton(R.string.delete) { _, _ ->
 				val contentState = viewModel.state.value as? MapScreenState.Content ?: return@setNegativeButton
 
 				if (pin.compare(contentState.routeInfo?.destination)) {

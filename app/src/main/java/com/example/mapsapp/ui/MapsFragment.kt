@@ -153,7 +153,7 @@ class MapsFragment : Fragment() {
 		MapObjectTapListener { _, point ->
 			drivingRouteListener = setupPinActionDialog(viewModel, binding.mapView.map, pin, tapListeners.getValue(pin)) {
 				val userLocation = (viewModel.state.value as? MapScreenState.Content)?.location ?: run {
-					Toast.makeText(requireContext(), "Нет доступа к геолокации, невозможно построить маршрут", Toast.LENGTH_SHORT).show()
+					Toast.makeText(requireContext(), R.string.no_geo_location_cant_build_route, Toast.LENGTH_SHORT).show()
 					return@setupPinActionDialog
 				}
 
@@ -213,7 +213,7 @@ class MapsFragment : Fragment() {
 
 	private fun setUserLocation(location: LatLonLocation?) {
 		if (location == null) {
-			Toast.makeText(requireContext(), "Нет доступа к локации пользователя", Toast.LENGTH_SHORT).show()
+			Toast.makeText(requireContext(), R.string.geo_location_no_permission, Toast.LENGTH_SHORT).show()
 			return
 		}
 
